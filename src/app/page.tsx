@@ -1,64 +1,127 @@
 import Image from "next/image";
+import styles from "./page.module.css";
+import { db } from "@/db";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch real announcements from db
+  // Make sure we have relations established in our db instance
+  const announcementsList = await db.query.annonces.findMany({
+    with: {
+      host: {
+        with: {
+          user: true
+        }
+      },
+      annoncesPictures: true,
+      country: true
+    },
+    limit: 6, // limiting to show in "Featured"
+  });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-[#F9F9F7]">
+      <header className={styles.navbar}>
+        <div className={styles.logoContainer}>
+          {/* Logo symbol as inline SVG */}
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 50C30 38.9543 38.9543 30 50 30C61.0457 30 70 38.9543 70 50C70 61.0457 61.0457 70 50 70C38.9543 70 30 61.0457 30 50Z" stroke="#D4412C" strokeWidth="8" />
+            <path d="M70 50C70 38.9543 78.9543 30 90 30C101.046 30 110 38.9543 110 50C110 61.0457 101.046 70 90 70C78.9543 70 70 61.0457 70 50Z" stroke="#D4412C" strokeWidth="8" transform="translate(-40, 0)" />
+            <path d="M50 50 L50 50" stroke="#D4412C" strokeWidth="8" strokeLinecap="round" />
+          </svg>
+          <span className={styles.logoText}>HosTable</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+        <nav className={styles.navLinks}>
+          <span className={styles.navLink}>Discover</span>
+          <span className={styles.navLink}>Host an experience</span>
+          <span className={styles.navLink}>Become a host</span>
+          <span className={styles.navLink}>Help</span>
+        </nav>
+        <div className={styles.navActions}>
+          <button className={styles.iconBtn} aria-label="Web">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </button>
+          <img src="https://i.pravatar.cc/150?img=47" alt="Profile" className={styles.profilePic} />
+        </div>
+      </header>
+
+      <main>
+        <section className={styles.heroSection}>
+          <div className={styles.heroImageContainer}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070&auto=format&fit=crop"
+              alt="Cooking experience"
+              className={styles.heroImage}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div className={styles.heroContent}>
+              <h1 className={styles.heroTitle}>Welcome back, Celia</h1>
+              <p className={styles.heroSubtitle}>Find and book unique food experiences around the world</p>
+
+              <div className={styles.searchBar}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4412C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '1rem' }}>
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Let's start with a city or cuisine"
+                  className={styles.searchInput}
+                />
+                <button className={styles.searchBtn}>Search</button>
+                <button className={styles.moreBtn}>More</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className={styles.categoryTabs}>
+          <span className={`${styles.tab} ${styles.active}`}>For you</span>
+          <span className={styles.tab}>Online</span>
+          <span className={styles.tab}>In person</span>
+          <span className={styles.tab}>Gift cards</span>
         </div>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Experiences for you</h2>
+          {announcementsList.length > 0 ? (
+            <div className={styles.grid}>
+              {announcementsList.map((item) => {
+                const imagePath = item.annoncesPictures?.[0]?.path
+                  ? (item.annoncesPictures[0].path.startsWith('http') ? item.annoncesPictures[0].path : `/img/annonces/${item.id}/photo1.jpg`)
+                  : `/img/annonces/${item.id}/photo1.jpg`;
+
+                return (
+                  <div key={item.id} className={styles.card}>
+                    <div className={styles.cardImageWrapper}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imagePath}
+                        alt={item.title}
+                        className={styles.cardImage}
+                      />
+                    </div>
+                    <h3 className={styles.cardTitle}>{item.title}</h3>
+                    <div className={styles.cardSubtitle}>
+                      {item.cuisine && `${item.cuisine} - `}
+                      {item.host?.user?.firstname ? `Hosted by ${item.host.user.firstname}` : item.country?.name || 'Local'}
+                    </div>
+                    <div className={styles.cardPrice}>
+                      €{Number(item.price)} <span className={styles.priceUnit}>per guest</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <p>Oups ! Aucune annonce n'a été trouvée dans la base de données. Essayez d'en ajouter via l'interface d'administration.</p>
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );
