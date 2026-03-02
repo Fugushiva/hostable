@@ -327,3 +327,56 @@
     color: #a93226;
     text-decoration: underline;
 }
+
+/* ── Login Form ─────────────────────────────────────────────────────── */
+
+.login-form-container {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Row for remember me + forgot password */
+.form-extras-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    margin-top: -0.25rem;
+}
+
+/* Remember me checkbox + label */
+.remember-me-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: #404040;
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-me-checkbox {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #D4412C;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+/* Forgot password link */
+.forgot-password-link {
+    font-size: 0.8125rem;
+    color: #D4412C;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-password-link:hover {
+    color: #a93226;
+    text-decoration: underline;
+}

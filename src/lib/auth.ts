@@ -20,6 +20,7 @@ import { cookies } from "next/headers";
 // ── Constants ──────────────────────────────────────────────────────────
 const SESSION_COOKIE_NAME = "session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24 * 7; // 7 days
+const REMEMBER_ME_DURATION_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 /**
  * Encode the AUTH_SECRET env var into a Uint8Array for jose.
@@ -40,9 +41,13 @@ function getSecretKey(): Uint8Array {
 /**
  * Create a session for the given user and set it as an httpOnly cookie.
  * Call this after a successful sign-up or login.
+ *
+ * @param userId - The ID of the authenticated user
+ * @param rememberMe - If true, extend session to 30 days (default: 7 days)
  */
-export async function createSession(userId: string): Promise<void> {
-    const expiresAt = new Date(Date.now() + SESSION_DURATION_SECONDS * 1000);
+export async function createSession(userId: string, rememberMe = false): Promise<void> {
+    const duration = rememberMe ? REMEMBER_ME_DURATION_SECONDS : SESSION_DURATION_SECONDS;
+    const expiresAt = new Date(Date.now() + duration * 1000);
 
     // Sign a JWT containing the userId
     const token = await new SignJWT({ userId })

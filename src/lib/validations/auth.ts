@@ -48,3 +48,25 @@ export const signUpSchema = z
  * Use this to type form data across components and actions.
  */
 export type SignUpFormData = z.infer<typeof signUpSchema>;
+
+/**
+ * Login form validation schema.
+ *
+ * Rules:
+ * - email: must be a valid email format
+ * - password: must not be empty
+ */
+export const loginSchema = z.object({
+    email: z
+        .string()
+        .email("Please enter a valid email address")
+        .max(255, "Email is too long"),
+    password: z
+        .string()
+        .min(1, "Password is required"),
+});
+
+/**
+ * TypeScript type inferred from the login schema.
+ */
+export type LoginFormData = z.infer<typeof loginSchema>;

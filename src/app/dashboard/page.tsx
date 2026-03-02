@@ -1,16 +1,12 @@
 /**
- * Dashboard Page (Placeholder)
- * ============================
- * After successful sign-up, users are redirected here.
- * Reads the session to display a personalized welcome message.
- * This is a minimal placeholder — the real dashboard will be built later.
+ * Dashboard Page
+ * ==============
+ * Protected page — uses the DAL to verify authentication.
+ * Shows a welcome message and a logout button.
  */
 
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getUser } from "@/lib/dal";
+import { logout } from "@/app/(auth)/logout/actions";
 
 export const metadata = {
     title: "Dashboard — HosTable",
@@ -18,25 +14,12 @@ export const metadata = {
 };
 
 export default async function DashboardPage() {
-    // Read the session; redirect to sign-up if not authenticated
-    const session = await getSession();
-
-    if (!session) {
-        redirect("/sign-up");
-    }
-
-    // Fetch the user's name from the database
-    const user = await db.query.users.findFirst({
-        where: eq(users.id, BigInt(session.userId)),
-        columns: {
-            firstname: true,
-            lastname: true,
-            email: true,
-        },
-    });
+    const user = await getUser();
 
     if (!user) {
-        redirect("/sign-up");
+        // verifySession() already redirects if not authenticated,
+        // but this handles the edge case where the user was deleted from DB
+        return null;
     }
 
     return (
@@ -65,17 +48,28 @@ export default async function DashboardPage() {
                     Welcome, {user.firstname}! 🎉
                 </h1>
                 <p className="text-neutral-500 mb-6">
-                    Your account has been created successfully. You&apos;re now part of
-                    the HosTable community.
+                    You&apos;re part of the HosTable community.
                 </p>
 
-                <a
-                    href="/"
-                    className="inline-block px-6 py-3 rounded-xl text-white font-medium transition-all hover:shadow-lg"
-                    style={{ backgroundColor: "#D4412C" }}
-                >
-                    Explore Experiences
-                </a>
+                <div className="flex flex-col gap-3">
+                    <a
+                        href="/"
+                        className="inline-block px-6 py-3 rounded-xl text-white font-medium transition-all hover:shadow-lg"
+                        style={{ backgroundColor: "#D4412C" }}
+                    >
+                        Explore Experiences
+                    </a>
+
+                    {/* Logout button */}
+                    <form action={logout}>
+                        <button
+                            type="submit"
+                            className="w-full px-6 py-3 rounded-xl font-medium transition-all border border-neutral-200 text-neutral-600 hover:bg-neutral-50 hover:border-neutral-300 cursor-pointer"
+                        >
+                            Log out
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );

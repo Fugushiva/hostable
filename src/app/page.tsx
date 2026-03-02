@@ -1,10 +1,25 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { db } from "@/db";
+import { eq } from "drizzle-orm";
+import { users } from "@/db/schema";
+import { getSession } from "@/lib/auth";
+import { logout } from "@/app/(auth)/logout/actions";
 
 export default async function Home() {
+  // Check if user is authenticated (non-redirecting)
+  const session = await getSession();
+  let currentUser: { firstname: string; lastname: string } | null = null;
+
+  if (session?.userId) {
+    const found = await db.query.users.findFirst({
+      where: eq(users.id, BigInt(session.userId)),
+      columns: { firstname: true, lastname: true },
+    });
+    currentUser = found ?? null;
+  }
+
   // Fetch real announcements from db
-  // Make sure we have relations established in our db instance
   const announcementsList = await db.query.annonces.findMany({
     with: {
       host: {
@@ -44,8 +59,26 @@ export default async function Home() {
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
             </svg>
           </button>
-          <a href="/sign-up" className={styles.signUpBtn}>Sign Up</a>
-          <a href="/login" className={styles.loginLink}>Log In</a>
+          {currentUser ? (
+            <>
+              <a href="/dashboard" className={styles.profilePill}>
+                <span className={styles.profileAvatar}>
+                  {currentUser.firstname.charAt(0)}{currentUser.lastname.charAt(0)}
+                </span>
+                <span className={styles.profileName}>{currentUser.firstname}</span>
+              </a>
+              <form action={logout}>
+                <button type="submit" className={styles.loginLink} style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
+                  Log out
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <a href="/sign-up" className={styles.signUpBtn}>Sign Up</a>
+              <a href="/login" className={styles.loginLink}>Log In</a>
+            </>
+          )}
         </div>
       </header>
 

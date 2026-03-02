@@ -322,3 +322,45 @@
     font-family: var(--font-roboto), sans-serif;
     color: #666;
 }
+
+/* ── Authenticated nav: profile pill ──────────────────────────────────── */
+
+.profilePill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem 0.35rem 0.35rem;
+    background-color: #fff;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.profilePill:hover {
+    border-color: #D4412C;
+    box-shadow: 0 2px 8px rgba(212, 65, 44, 0.12);
+}
+
+.profileAvatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #D4412C 0%, #c0392b 100%);
+    color: white;
+    font-family: var(--font-roboto), sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.profileName {
+    font-family: var(--font-roboto), sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
