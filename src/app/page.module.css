@@ -65,11 +65,38 @@
     opacity: 0.9;
 }
 
-.profilePic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
+.signUpBtn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.5rem;
+    background-color: #D4412C;
+    color: white;
+    font-family: var(--font-roboto), sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(212, 65, 44, 0.25);
+}
+
+.signUpBtn:hover {
+    background-color: #c03823;
+    box-shadow: 0 4px 12px rgba(212, 65, 44, 0.35);
+    transform: translateY(-1px);
+}
+
+.loginLink {
+    font-family: var(--font-roboto), sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.loginLink:hover {
+    color: #D4412C;
 }
 
 .heroSection {
