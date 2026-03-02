@@ -61,7 +61,7 @@ export default async function Home() {
           </button>
           {currentUser ? (
             <>
-              <a href="/dashboard" className={styles.profilePill}>
+              <a href="/dashboard/settings" className={styles.profilePill}>
                 <span className={styles.profileAvatar}>
                   {currentUser.firstname.charAt(0)}{currentUser.lastname.charAt(0)}
                 </span>
