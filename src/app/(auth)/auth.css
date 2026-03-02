@@ -1,0 +1,329 @@
+/**
+ * Auth Styles
+ * ===========
+ * Styles for the authentication layout and sign-up form.
+ * Uses CSS variables from globals.css and the Hostable brand colors.
+ */
+
+/* ── Auth Layout ─────────────────────────────────────────────────────── */
+
+.auth-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Left decorative image panel */
+.auth-image-panel {
+    display: none;
+    position: relative;
+    width: 50%;
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .auth-image-panel {
+        display: block;
+    }
+}
+
+.auth-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auth-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.6) 100%);
+    z-index: 1;
+}
+
+.auth-image-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3rem;
+    z-index: 2;
+    color: white;
+}
+
+.auth-logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.auth-logo-text {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.auth-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 400px;
+}
+
+/* Right form panel */
+.auth-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background-color: #F9F9F7;
+}
+
+.auth-form-wrapper {
+    width: 100%;
+    max-width: 460px;
+}
+
+/* ── Sign Up Form ────────────────────────────────────────────────────── */
+
+.sign-up-form-container {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-title {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.form-subtitle {
+    color: #737373;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Error banner for server-side errors */
+.error-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.75rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form row (side by side fields) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Individual form field group */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #404040;
+    margin-bottom: 0.375rem;
+    letter-spacing: 0.01em;
+}
+
+/* Input styling */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 0.75rem;
+    background-color: #fafafa;
+    color: #1a1a1a;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-input::placeholder {
+    color: #a3a3a3;
+}
+
+.form-input:focus {
+    border-color: #D4412C;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(212, 65, 44, 0.1);
+}
+
+.form-input.input-error {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.form-input.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Password input wrapper (for the toggle button) */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper .form-input {
+    padding-right: 3rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #737373;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: #404040;
+}
+
+/* Field error message */
+.field-error {
+    color: #ef4444;
+    font-size: 0.8125rem;
+    margin: 0.375rem 0 0;
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Field hint (e.g., password requirements) */
+.field-hint {
+    color: #a3a3a3;
+    font-size: 0.75rem;
+    margin: 0.375rem 0 0;
+}
+
+/* Submit button */
+.submit-button {
+    width: 100%;
+    padding: 0.875rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #D4412C 0%, #c0392b 100%);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(212, 65, 44, 0.3);
+}
+
+.submit-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    box-shadow: 0 4px 16px rgba(212, 65, 44, 0.4);
+    transform: translateY(-1px);
+}
+
+.submit-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Loading spinner */
+.spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Footer (login link) */
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #737373;
+}
+
+.form-link {
+    color: #D4412C;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.form-link:hover {
+    color: #a93226;
+    text-decoration: underline;
+}

@@ -44,7 +44,8 @@ export default async function Home() {
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
             </svg>
           </button>
-          <img src="https://i.pravatar.cc/150?img=47" alt="Profile" className={styles.profilePic} />
+          <a href="/sign-up" className={styles.signUpBtn}>Sign Up</a>
+          <a href="/login" className={styles.loginLink}>Log In</a>
         </div>
       </header>
 
